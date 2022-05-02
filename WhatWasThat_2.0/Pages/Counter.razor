@@ -1,0 +1,20 @@
+﻿@page "/counter"
+
+<h1 class="text-center text-black-50">@ras</h1>
+
+<div>
+<button class="btn btn-primary" @onclick="random">Click me</button>
+
+</div>
+
+@code{
+
+    Random rnd = new Random();
+    string[] str = { "Сегодня тебя ждет успешный день, полный ярких эмоций.", "Не отвергайте помощь, используйте любые шансы.","Вы стоите на пороге перемен.","Возьмите всё в свои руки. Сделайте решающий шаг в отношениях.","Вам стоит довериться своей интуиции." };
+    string ras = "";
+    public void random()
+    {
+        ras = str[rnd.Next(0, str.Length)];
+    }
+    
+}

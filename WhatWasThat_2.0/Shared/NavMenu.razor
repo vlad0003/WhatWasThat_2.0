@@ -1,0 +1,68 @@
+﻿
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand text-center" href="">WhatWasThat_2.0</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3 mt-4">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> <h5>Home</h5> 
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 mt-4">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-heart" aria-hidden="true"></span> <h5>Predictions</h5> 
+            </NavLink>
+        </li>
+        <li class="nav-item px-3 mt-4">
+            <NavLink class="nav-link" href="todo">
+                <span class="oi oi-circle-check" aria-hidden="true"></span> <h5>TodoList</h5> 
+            </NavLink>
+        </li>
+
+        <li class="nav-item px-3 mt-4">
+            <NavLink class="nav-link" href="TodoCalendar">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> <h5>TodoCalendar</h5> 
+            </NavLink>
+        </li>
+        <AuthorizeView>
+            <Authorized>
+                  <li class="dropdown-divider"></li>
+         <li class="nav-item px-3 mt-4">
+            <NavLink class="nav-link" href="Identity/Account/LogOut">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> <h5>Logout</h5> 
+
+            </NavLink>
+        </li>
+            </Authorized>
+          <NotAuthorized>
+                <li class="dropdown-divider"></li>
+         <li class="nav-item px-3 mt-4">
+            <NavLink class="nav-link" href="Identity/Account/Login">
+                <span class="oi oi-account-login" aria-hidden="true"></span> <h5>Login</h5> 
+            </NavLink>
+        </li>
+          </NotAuthorized>
+        </AuthorizeView>
+        
+    </ul>
+</div>
+
+
+
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string Date = DateTime.Now.ToString();
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

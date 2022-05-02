@@ -1,0 +1,96 @@
+﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject WhatWasThat_2._0.Data.Repository.IRepository repostitory
+@inject IToastService toast
+@page "/todo"
+@using Newtonsoft.Json
+
+<div class="row">
+    <style>
+        body{background-color:white;}
+    </style>
+
+    <div class="col">
+        <h2 class="text-center">Todo List</h2>
+        <h4 class="text-center text-dark-50">Выполненных задач: @todos.Count(item => item.IsDone)</h4>
+        <p></p>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            @foreach(var item in todos)
+            {
+                 <tbody>
+                     <tr>
+                         <td class="c">
+                            <div  style="@(item.IsDone ? " font-size: 1rem;color:#7A57D1;background: #bac2c6; text-decoration: line-through;" : "text-decoration:none")">
+                                    @item.Title
+                                </div>
+                         </td>
+                         <td>
+                              <input type="checkbox" checked="@(item.IsDone ? true : false)" @onchange="(() => StatusChanger(item))" />
+                         </td>
+                         <td>
+                             <button class="btn btn-outline-dark" @onclick="(() => DeleteTodo(item.Id))">Удалить</button>
+                         </td>
+                     </tr>
+                 </tbody>    
+            }
+           
+        </table>
+        <div class="row">
+            <div class="col">
+                <input class="form-control mt-3" placeholder="Описание задачи" @bind="newTodo"/>
+            </div>
+            <div class="col">
+                <button class="btn btn-outline-success mt-3" @onclick="AddTodo">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private IEnumerable<TodoItem> todos = new List<TodoItem>();
+
+    protected override void OnInitialized()
+    {
+        todos = repostitory.GetAllItems();
+    }
+
+    private string newTodo;
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            //todos.Add(new TodoItem { Title = newTodo });
+            repostitory.AddTodo(newTodo);
+            newTodo = string.Empty;
+            toast.ShowInfo("Задача добавлена.");
+        }
+        else
+        {
+            toast.ShowWarning("Поле не может быть пустым!");
+        }
+    }
+
+    private void DeleteTodo(int id)
+    {
+        repostitory.DeleteItem(id);
+        // todos.Remove(deletedItem);
+    }
+
+    private void StatusChanger(TodoItem chengedItem)
+    {
+        chengedItem.IsDone = !chengedItem.IsDone;
+        repostitory.ValueChanger(chengedItem);
+        if (chengedItem.IsDone)
+        {
+            toast.ShowSuccess("Задача успешно выполнена :)");            
+        }
+    }
+
+}
