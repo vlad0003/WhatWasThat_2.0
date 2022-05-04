@@ -1,9 +1,20 @@
 ﻿@page "/counter"
 
-<h1 class="text-center text-black-50">@ras</h1>
+
+
+<style>
+        body{
+             background:url("../img/1.jpg");
+        }</style>
+
+<h1 class="text-center text-black">Узнай свое предсказание на день!</h1>
+
+<h2 class="text-center text-black-50">@Prediction</h2>
+
+
 
 <div>
-<button class="btn btn-primary" @onclick="random">Click me</button>
+<button class="btn btn-primary" @onclick="random">Получить</button>
 
 </div>
 
@@ -11,10 +22,10 @@
 
     Random rnd = new Random();
     string[] str = { "Сегодня тебя ждет успешный день, полный ярких эмоций.", "Не отвергайте помощь, используйте любые шансы.","Вы стоите на пороге перемен.","Возьмите всё в свои руки. Сделайте решающий шаг в отношениях.","Вам стоит довериться своей интуиции." };
-    string ras = "";
+    string Prediction = "";
     public void random()
     {
-        ras = str[rnd.Next(0, str.Length)];
+        Prediction = str[rnd.Next(0, str.Length)];
     }
     
 }
